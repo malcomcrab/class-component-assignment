@@ -39,6 +39,13 @@ class ClassInput extends Component {
     }))
 }
 
+  handleEdit(e){
+    e.preventDefault();
+    const t = e.target.value
+    let currentInput = document.querySelector(`#${t}input`)
+    currentInput.style.display = 'flex'
+  }
+
 
   render() {
     return (
@@ -59,9 +66,12 @@ class ClassInput extends Component {
         <ul>
           {this.state.todos.map((todo) => (
             <>
-            <li key={todo}>{todo} <button onClick={this.handleDelete} value={todo}>Delete</button></li>
-            
-            </>
+            <li key={todo}>{todo} 
+              <button onClick={this.handleDelete} value={todo}>Delete</button>
+              <button onClick={this.handleEdit} value={todo}>Edit</button>
+              <input id={todo + 'input'} className='edit-input' value={todo}></input>
+            </li>
+           </>
           ))}
         </ul>
       </section>
