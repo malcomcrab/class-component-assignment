@@ -15,8 +15,9 @@ class ClassInput extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this)
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleEditInputChange = this.handleEditInputChange.bind(this);
+    this.handleToggleEdit = this.handleToggleEdit.bind(this);
+    this.handleEditInputChange = this.handleEditInputChange.bind(this)
+    this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
   }
 
   handleInputChange(e) {
@@ -49,7 +50,7 @@ class ClassInput extends Component {
     }))
 }
 
-  handleEdit(e){
+  handleToggleEdit(e){
     e.preventDefault();
     const t = e.target.value
     this.setState((state) => ({
@@ -64,9 +65,18 @@ class ClassInput extends Component {
     }
   }
 
+  handleSubmitEdit(e) {
+    e.preventDefault();
+    let filteredEdit = this.state.todos.filter((todo) => todo !== e.target.value)
+    filteredEdit.push(this.state.editInputVal)
+    this.setState((state) => ({
+    todos: filteredEdit
+    }))
+  }
 
 
-  
+
+
   render() {
     return (
       <section>
@@ -91,7 +101,7 @@ class ClassInput extends Component {
                 onClick={this.handleDelete} 
                 value={todo}>Delete</button>
               <button
-                onClick={this.handleEdit}
+                onClick={this.handleToggleEdit}
                 value={todo}>Edit
               </button>
               <label htmlFor='edit-input'></label>
@@ -103,7 +113,7 @@ class ClassInput extends Component {
                 value={this.state.editInputVal} 
                 onChange={this.handleEditInputChange} >
               </input>
-              <button>Submit</button>
+              <button value={todo} onClick={this.handleSubmitEdit}>Submit</button>
             </li>
            </>
           ))}
