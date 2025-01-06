@@ -9,17 +9,27 @@ class ClassInput extends Component {
     this.state = {
       todos: [],
       inputVal: "",
+      editInputVal: "",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditInputChange = this.handleEditInputChange.bind(this);
   }
 
   handleInputChange(e) {
     this.setState((state) => ({
       ...state,
       inputVal: e.target.value,
+    }));
+  }
+
+  handleEditInputChange(e) {
+    this.setState((state) => ({
+      ...state,
+      editInputVal: e.target.value,
     }));
   }
 
@@ -42,11 +52,21 @@ class ClassInput extends Component {
   handleEdit(e){
     e.preventDefault();
     const t = e.target.value
+    this.setState((state) => ({
+      ...state,
+      editInputVal: t
+    }))
     let currentInput = document.querySelector(`#${t}input`)
-    currentInput.style.display = 'flex'
+    if(currentInput.style.display != 'flex'){
+      currentInput.style.display = 'flex'
+    } else {
+      currentInput.style.display = 'none'
+    }
   }
 
 
+
+  
   render() {
     return (
       <section>
@@ -67,9 +87,23 @@ class ClassInput extends Component {
           {this.state.todos.map((todo) => (
             <>
             <li key={todo}>{todo} 
-              <button onClick={this.handleDelete} value={todo}>Delete</button>
-              <button onClick={this.handleEdit} value={todo}>Edit</button>
-              <input id={todo + 'input'} className='edit-input' value={todo}></input>
+              <button 
+                onClick={this.handleDelete} 
+                value={todo}>Delete</button>
+              <button
+                onClick={this.handleEdit}
+                value={todo}>Edit
+              </button>
+              <label htmlFor='edit-input'></label>
+              <input 
+                type='text'
+                name='edit-input'
+                id={todo + 'input'} 
+                className='edit-input' 
+                value={this.state.editInputVal} 
+                onChange={this.handleEditInputChange} >
+              </input>
+              <button>Submit</button>
             </li>
            </>
           ))}
